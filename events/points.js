@@ -1,0 +1,4 @@
+module.exports = {
+    POINTS_EARNED: 'POINTS_EARNED',
+    POINTS_FAILED: 'POINTS_FAILED'
+}
