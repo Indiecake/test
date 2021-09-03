@@ -1,14 +1,26 @@
 const Blackrik = require('blackrik');
 
 module.exports = {
-    agregates: [
+    aggregates: [
         {
             name: 'card',
-            commands: require('./aggregates/recordSpend')
+            commands: require('./aggregates/virtualCard.commands')
         }
     ],
-    readModels: [],
-    sagas: [],
+    readModels: [
+        {
+            name: 'virtualCard',
+            projection: require('./readModels/virtualCard.projection'),
+            resolver: require('./readModels/virtualCard.resolvers')
+        }
+    ],
+    sagas: [
+        {
+            name: 'virtualCards',
+            source: require('./sagas/virtualCardCapture'),
+            adapter: 'default'
+        }
+    ],
     adapter: 'default',
     readModelStoreAdapters: {
         default: {
