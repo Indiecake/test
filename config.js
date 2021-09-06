@@ -3,22 +3,28 @@ const Blackrik = require('blackrik');
 module.exports = {
     aggregates: [
         {
-            name: 'card',
-            commands: require('./aggregates/virtualCard.commands')
+            name: 'virtualCard',
+            commands: require('./aggregates/virtualCard.commands'),
+            projection: require('./aggregates/virtualCard.projections')
         }
     ],
     readModels: [
         {
             name: 'virtualCard',
             projection: require('./readModels/virtualCard.projection'),
-            resolver: require('./readModels/virtualCard.resolvers')
+            resolver: require('./readModels/virtualCard.resolvers'),
+            adapter: 'default'
         }
     ],
     sagas: [
         {
-            name: 'virtualCards',
-            source: require('./sagas/virtualCardCapture'),
+            name: 'spendRecorded',
+            source: require('./sagas/spendRecorded'),
             adapter: 'default'
+        },
+        {
+            name: 'virtualCardCapture',
+            source: require('./sagas/virtualCardCapture')
         }
     ],
     adapter: 'default',

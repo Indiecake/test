@@ -2,15 +2,24 @@ const {
     SPEND_RECORDED
 } = require('../events/virtualCards');
 
+const {
+    ConflictError,
+    BadRequestError
+} = require('../errors');
 
 module.exports = {
-    spendRecorded: async(command, state/* , context */) => {
-        //TODO define Validations
+    recordSpend: async(command, state/* , context */) => {
+        if(state.registered) throw new ConflictError('Spend already registered');
+        if(command.payload.userID) throw new BadRequestError('Please provide an userID');
+        if(command.payload.virtualCard) throw new BadRequestError('Please provide a card');
+        if(command.payload.amount) throw new BadRequestError('Please provide the amount of transaction');
+
         return {
             type: SPEND_RECORDED,
             payload: {
-                amount: command.payload.amount,
-                user: command.payload.userID
+                ...command.payload.amount,
+                ...command.payload.userID,
+                ...command.payload.virtualCard,
             }
         };
     }
