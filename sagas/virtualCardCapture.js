@@ -1,8 +1,8 @@
 const { RECORD_SPEND, SPEND_RECORDED } = require('../events/virtualCards');
 
 
-function RecordSpend(workflow) {
-    workflow.sideEffects.executeCommand({
+async function RecordSpend(workflow) {
+    await workflow.sideEffects.executeCommand({
         aggregateName: 'recordSpend',
         aggregateId: workflow.event.aggregateId,
         type: 'create',
@@ -15,7 +15,7 @@ function RecordSpend(workflow) {
 module.exports = {
     name: 'VirtualCardCapture',
     version: 1,
-    inital: 'init',
+    initial: 'init',
     context: {changeCount: 0},
     steps: {
         init: {
