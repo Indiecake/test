@@ -1,9 +1,9 @@
-const { RECORD_SPEND } = require('../events/virtualCards')
-const { POINTS_EARNED } = require('../events/points');
+const { SPEND_RECORDED } = require('../events/virtualCards')
+const { POINTS_EARNED } = require('../../points/events/points');
 
 async function pointsEarned(workflow) {
     await workflow.sideEffects.executeCommand({
-        aggregateName: 'points',
+        aggregateName: 'pointsEarned',
         aggregateId: workflow.event.aggregateId,
         type: 'update',
         payload: {
@@ -20,10 +20,10 @@ module.exports = {
     steps: {
         init: {
             on: {
-                [RECORD_SPEND]: 'recordSpend'
+                [SPEND_RECORDED]: 'spendRecorded'
             }
         },
-        recordSpend: {
+        spendRecorded: {
             actions: [pointsEarned],
             on: {
                 [POINTS_EARNED]: 'done'

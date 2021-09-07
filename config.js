@@ -4,27 +4,42 @@ module.exports = {
     aggregates: [
         {
             name: 'virtualCard',
-            commands: require('./aggregates/virtualCard.commands'),
-            projection: require('./aggregates/virtualCard.projections')
+            commands: require('./virtualCard/aggregates/virtualCard.commands'),
+            projection: require('./virtualCard/aggregates/virtualCard.projection')
+        },
+        {
+            name: 'points',
+            commands: require('./points/aggregates/points.commands'),//
+            projection: require('./points/aggregates/points.projection')//
         }
     ],
     readModels: [
         {
             name: 'virtualCard',
-            projection: require('./readModels/virtualCard.projection'),
-            resolver: require('./readModels/virtualCard.resolvers'),
+            projection: require('./virtualCard/readModels/virtualCard.projection'),
+            resolver: require('./virtualCard/readModels/virtualCard.resolvers'),
+            adapter: 'default'
+        },
+        {
+            name: 'points',
+            projection: require('./points/readModels/points.projection'),//
+            resolver: require('./points/readModels/points.resolvers'),//
             adapter: 'default'
         }
     ],
     sagas: [
         {
             name: 'spendRecorded',
-            source: require('./sagas/spendRecorded'),
+            source: require('./virtualCard/sagas/spendRecorded'),
             adapter: 'default'
         },
         {
             name: 'virtualCardCapture',
-            source: require('./sagas/virtualCardCapture')
+            source: require('./virtualCard/sagas/virtualCardCapture')
+        },
+        {
+            name: 'points',
+            source: require('./points/sagas/points')
         }
     ],
     adapter: 'default',

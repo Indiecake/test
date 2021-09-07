@@ -2,14 +2,19 @@ const { RECORD_SPEND, SPEND_RECORDED } = require('../events/virtualCards');
 
 
 async function RecordSpend(workflow) {
+    console.log("Record spend", workflow.event.aggregateId)
     await workflow.sideEffects.executeCommand({
         aggregateName: 'recordSpend',
         aggregateId: workflow.event.aggregateId,
-        type: 'create',
+        type: 'processSpend',
         payload: {
-            amount: workflow.context.oldAmount + workflow.event.payload.amount
+            ...workflow.payload
         }
-    })
+    });
+}
+
+function afterRecordSpend(workflow) {
+    console.log('Spend recorded', workflow.event.aggregateId);
 }
 
 module.exports = {

@@ -1,12 +1,12 @@
-const tablename = 'VirtualCards';
+const tableName = 'VirtualCards';
 
 module.exports = {
     get: async (store, {id, position}) => {
         if(!id) return null;
-        return await store.findOne(tablename, {id}, {position});
+        return await store.findOne(tableName, {id}, {position});
     },
     list: async (store, args) => {
-        return await store.find(tablename, null, {
+        return await store.find(tableName, null, {
             position: args.position
         });
     },
